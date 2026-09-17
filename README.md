@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/approval-paused.png" alt="frontdesk paused on a £240 refund. Left: the customer's orders. Middle: the chat. Right: the agent's tool calls and an approval card with Approve and Decline buttons." width="920">
+<!-- SHOT   <img src="docs/screenshots/approval-paused.png" alt="frontdesk paused on a £240 refund. Left: the customer's orders. Middle: the chat. Right: the agent's tool calls and an approval card with Approve and Decline buttons." width="920"> -->
 </p>
 
 ---
@@ -44,36 +44,36 @@ The shop (Halden Outfitters, outdoor gear) is fictional. The database, the polic
 ### Acts on the order, with a human in the loop for large refunds
 
 The customer asks for a £240 refund. The agent finds the order, checks the policy, and calls `issue_refund`. The tool sees the amount is over the limit and the run pauses. Nothing is paid yet.
-
-<img src="docs/screenshots/approval-paused.png" alt="Run paused with an approval card showing £240.00" width="920">
+<!-- SHOT 
+<img src="docs/screenshots/approval-paused.png" alt="Run paused with an approval card showing £240.00" width="920"> -->
 
 The supervisor approves in the right-hand panel. The run resumes from saved state, the refund is written to the database (watch the order on the left), and the agent tells the customer what happened.
-
-<img src="docs/screenshots/approval-approved.png" alt="After approval: the order shows as refunded by supervisor and the agent confirms to the customer" width="920">
+<!-- SHOT 
+<img src="docs/screenshots/approval-approved.png" alt="After approval: the order shows as refunded by supervisor and the agent confirms to the customer" width="920"> -->
 
 ### Handles small things on its own
 
 One item from a two-item order, inside the 30-day window, under the limit: refunded without involving anyone, for exactly the item's price.
-
-<img src="docs/screenshots/partial-refund.png" alt="A £38 refund for one item issued automatically" width="920">
+<!-- SHOT 
+<img src="docs/screenshots/partial-refund.png" alt="A £38 refund for one item issued automatically" width="920"> -->
 
 ### Takes "no" from the rules, and explains it
 
 A clearance item cannot be returned for change of mind. The tool refuses, the trace shows the refusal in red, and the customer gets the rule in plain words plus what is still possible.
-
-<img src="docs/screenshots/policy-refusal.png" alt="A refund refused by the final-sale rule" width="920">
+<!-- SHOT 
+<img src="docs/screenshots/policy-refusal.png" alt="A refund refused by the final-sale rule" width="920"> -->
 
 ### Cannot be talked into things
 
 A message claiming to be a system notice asks for a refund on another customer's order. The session is bound to the signed-in customer, so the tool cannot see that order at all, and a missing order and someone else's order return the same message.
-
-<img src="docs/screenshots/prompt-injection.png" alt="A prompt-injection attempt that goes nowhere" width="920">
+<!-- SHOT 
+<img src="docs/screenshots/prompt-injection.png" alt="A prompt-injection attempt that goes nowhere" width="920"> -->
 
 ### Knows when to hand over
 
 An injury report is not a refund question. The agent opens an urgent ticket with a summary a supervisor can act on, and does not promise an outcome on their behalf.
-
-<img src="docs/screenshots/escalation.png" alt="An urgent escalation ticket appearing in the left panel" width="920">
+<!-- SHOT 
+<img src="docs/screenshots/escalation.png" alt="An urgent escalation ticket appearing in the left panel" width="920"> -->
 
 ## How it works
 
