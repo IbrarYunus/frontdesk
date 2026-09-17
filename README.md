@@ -1,7 +1,7 @@
 <h1 align="center">frontdesk</h1>
 
 <p align="center">
-  <strong>A customer-support agent that does the work, not just the talking.</strong><br>
+  <strong>Agentic AI for customer support: an agent that does the work, not just the talking.</strong><br>
   It looks up orders, cancels, redirects and refunds. The money rules are enforced in code, large refunds wait for a human, and every step is on screen.
 </p>
 
@@ -30,7 +30,7 @@
 
 Support is where most companies first put an LLM agent in front of customers, and the hard part is not the conversation. It is letting software that can be talked into things touch refunds.
 
-frontdesk is a working answer to that. The design rule is: **the model decides what to do; code decides whether it is allowed.**
+frontdesk is a working answer to that: a small, complete example of agentic AI (a model that plans, calls tools, reads the results and keeps going until the job is done) built so it can be trusted with real actions. The design rule is: **the model decides what to do; code decides whether it is allowed.**
 
 - The model never types a refund amount. It picks the items; the code prices them.
 - Return windows, final-sale items, double refunds and order ownership are checked in the tool, where no prompt can argue with them.
