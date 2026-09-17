@@ -21,7 +21,8 @@
 </p>
 
 <p align="center">
-<!-- SHOT   <img src="docs/screenshots/approval-paused.png" alt="frontdesk paused on a £240 refund. Left: the customer's orders. Middle: the chat. Right: the agent's tool calls and an approval card with Approve and Decline buttons." width="920"> -->
+
+<img src="docs/screenshots/approval-paused.png" alt="frontdesk paused on a £240 refund. Left: the customer's orders. Middle: the chat. Right: the agent's tool calls and an approval card with Approve and Decline buttons." width="920">
 </p>
 
 ---
@@ -44,36 +45,38 @@ The shop (Halden Outfitters, outdoor gear) is fictional. The database, the polic
 ### Acts on the order, with a human in the loop for large refunds
 
 The customer asks for a £240 refund. The agent finds the order, checks the policy, and calls `issue_refund`. The tool sees the amount is over the limit and the run pauses. Nothing is paid yet.
-<!-- SHOT 
-<img src="docs/screenshots/approval-paused.png" alt="Run paused with an approval card showing £240.00" width="920"> -->
+
+<img src="docs/screenshots/approval-paused.png" alt="Run paused with an approval card showing £240.00" width="920">
 
 The supervisor approves in the right-hand panel. The run resumes from saved state, the refund is written to the database (watch the order on the left), and the agent tells the customer what happened.
-<!-- SHOT 
-<img src="docs/screenshots/approval-approved.png" alt="After approval: the order shows as refunded by supervisor and the agent confirms to the customer" width="920"> -->
+
+<img src="docs/screenshots/approval-approved.png" alt="After approval: the order shows as refunded by supervisor and the agent confirms to the customer" width="920">
 
 ### Handles small things on its own
 
 One item from a two-item order, inside the 30-day window, under the limit: refunded without involving anyone, for exactly the item's price.
-<!-- SHOT 
-<img src="docs/screenshots/partial-refund.png" alt="A £38 refund for one item issued automatically" width="920"> -->
+
+<img src="docs/screenshots/partial-refund.png" alt="A £38 refund for one item issued automatically" width="920">
 
 ### Takes "no" from the rules, and explains it
 
 A clearance item cannot be returned for change of mind. The tool refuses, the trace shows the refusal in red, and the customer gets the rule in plain words plus what is still possible.
-<!-- SHOT 
-<img src="docs/screenshots/policy-refusal.png" alt="A refund refused by the final-sale rule" width="920"> -->
+
+<img src="docs/screenshots/policy-refusal.png" alt="A refund refused by the final-sale rule" width="920">
 
 ### Cannot be talked into things
 
 A message claiming to be a system notice asks for a refund on another customer's order. The session is bound to the signed-in customer, so the tool cannot see that order at all, and a missing order and someone else's order return the same message.
-<!-- SHOT 
-<img src="docs/screenshots/prompt-injection.png" alt="A prompt-injection attempt that goes nowhere" width="920"> -->
+
+<img src="docs/screenshots/prompt-injection.png" alt="A prompt-injection attempt that goes nowhere" width="920">
 
 ### Knows when to hand over
 
 An injury report is not a refund question. The agent opens an urgent ticket with a summary a supervisor can act on, and does not promise an outcome on their behalf.
-<!-- SHOT 
-<img src="docs/screenshots/escalation.png" alt="An urgent escalation ticket appearing in the left panel" width="920"> -->
+
+<img src="docs/screenshots/escalation.png" alt="An urgent escalation ticket appearing in the left panel" width="920">
+
+> **About the screenshots.** They were taken in **demo mode**, which needs no API key: the model's turns (which tools to call, the wording of replies) are scripted for the suggested messages. Everything else is real: each tool call runs, the rules are checked, the database changes, the £240 refund really pauses until someone clicks Approve, and the audit log is written. The banner in the UI says when demo mode is on. With an `ANTHROPIC_API_KEY`, the same loop runs on Claude.
 
 ## How it works
 
@@ -119,20 +122,21 @@ Two layers, both in the repo.
 
 **2. Behaviour (`evals/`, live model).** 18 scripted conversations, each on a fresh database. A scenario passes only if all of these hold: the right tools were called, the database ended in the expected state (exact refund totals, order status, address, ticket priority), an approval was or was not requested, and a separate judge model confirms the reply told the customer the truth.
 
-<!-- EVAL_TABLE -->
+Groups covered: lookups (3), actions (4), policy refusals (5), approvals (2), attacks (2), escalations (2).
+
+**The live scenario suite has not been run yet**, so no pass rate is claimed here. It needs an API key and costs a few dollars on Claude Opus 5. The rule tests run in CI on every push.
 
 ## Run it
 
-Needs Python 3.11+, [uv](https://docs.astral.sh/uv/) and an [Anthropic API key](https://console.anthropic.com/settings/keys).
+Needs Python 3.11+ and [uv](https://docs.astral.sh/uv/). An API key is optional.
 
 ```bash
 git clone https://github.com/IbrarYunus/frontdesk && cd frontdesk
-cp .env.example .env        # add ANTHROPIC_API_KEY
 uv sync
 uv run frontdesk serve      # http://127.0.0.1:8001
 ```
 
-Pick a customer, click one of the suggested messages, and watch the right-hand panel. "Reset demo" restores the database.
+With no key it starts in **demo mode**: pick a customer, click one of the suggested messages, and watch the right-hand panel. "Reset demo" restores the database. To chat freely with the real agent, `cp .env.example .env` and add an [Anthropic API key](https://console.anthropic.com/settings/keys).
 
 ```bash
 uv run pytest                      # the rules, no API calls
@@ -145,6 +149,7 @@ uv run python evals/run.py --only prompt-injection
 | `FRONTDESK_MODEL` | `claude-opus-5` | Agent model. |
 | `FRONTDESK_EFFORT` | `medium` | How much the model thinks per step. |
 | `FRONTDESK_APPROVAL_THRESHOLD` | `100` | Refunds above this (GBP) need a supervisor. |
+| `FRONTDESK_DEMO` | unset | `1` forces demo mode even when a key is present. |
 | `FRONTDESK_TODAY` | `2026-09-15` | The shop's date. Pinned so the demo data and evals stay valid. |
 
 ## Project layout
@@ -154,9 +159,10 @@ frontdesk/tools.py    tools + every business rule        tests/           the ru
 frontdesk/agent.py    pausable agent loop, saved state   evals/           18 scenarios, runner, results
 frontdesk/db.py       schema and demo data               policies/        the shop's written policies
 frontdesk/server.py   FastAPI + Server-Sent Events       web/index.html   the whole front end
+frontdesk/demo.py     scripted model for keyless demo mode
 ```
 
-About 650 lines of Python on the Anthropic SDK, with no agent framework. The loop is 60 lines and worth reading.
+About 800 lines of Python on the Anthropic SDK, with no agent framework. The loop is 60 lines and worth reading.
 
 ## What I would build next
 

@@ -30,7 +30,12 @@ _client: anthropic.Anthropic | None = None
 def client() -> anthropic.Anthropic:
     global _client
     if _client is None:
-        _client = anthropic.Anthropic()
+        if config.DEMO:
+            from .demo import DemoClient
+
+            _client = DemoClient()
+        else:
+            _client = anthropic.Anthropic()
     return _client
 
 

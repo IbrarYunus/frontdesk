@@ -139,7 +139,22 @@
 <section data-n="8">
   <div class="kicker">Evaluation</div>
   <h2>Pass means the database is right, not that the reply sounds right.</h2>
-  <!-- EVAL_SLIDE -->
+  <div class="cols">
+    <div>
+      <p><b class="acc">Layer 1 · rules, no model.</b> Nine tests, run in CI on every push. Over-limit refunds pay nothing until approved. Windows and final sale hold. An item is refunded once. Someone else's order looks exactly like a missing one.</p>
+      <p><b class="acc">Layer 2 · behaviour, live model.</b> 18 scripted conversations, each on a fresh database: lookups, actions, policy refusals, approvals (approved and declined), attacks, escalations.</p>
+    </div>
+    <div>
+      <p>A scenario passes only if all of these hold:</p>
+      <ul>
+        <li>the right tools were called, and no write tool when only reading was needed</li>
+        <li>the database ended in the expected state: exact refund totals, order status, address, ticket priority</li>
+        <li>an approval was, or was not, requested</li>
+        <li>a judge model confirms the reply told the customer the truth</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">Layer 2 is built but has not been run yet, so no pass rate is claimed. Screenshots in this deck are from demo mode: scripted model turns, real tools, real rules, real approval pause.</p>
 </section>
 
 <section data-n="9">

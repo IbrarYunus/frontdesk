@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
-from . import agent, config, db
+from . import agent, config, db, demo
 
 app = FastAPI(title="frontdesk")
 db.ensure()
@@ -70,7 +70,7 @@ def state(customer_id: str | None = None):
         escalations = [dict(row) for row in conn.execute("SELECT * FROM escalations ORDER BY id DESC LIMIT 10")]
     return {
         "customers": customers, "orders": orders, "audit": audit, "escalations": escalations,
-        "model": config.MODEL, "today": config.TODAY.isoformat(), "approval_threshold": config.APPROVAL_THRESHOLD,
+        "model": demo.MODEL_NAME if config.DEMO else config.MODEL, "demo": config.DEMO, "today": config.TODAY.isoformat(), "approval_threshold": config.APPROVAL_THRESHOLD,
     }
 
 

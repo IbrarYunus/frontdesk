@@ -10,7 +10,9 @@ load_dotenv(ROOT / ".env")
 MODEL = os.environ.get("FRONTDESK_MODEL", "claude-opus-5")
 JUDGE_MODEL = os.environ.get("FRONTDESK_JUDGE_MODEL", "claude-haiku-4-5")
 EFFORT = os.environ.get("FRONTDESK_EFFORT", "medium")
-DB_PATH = Path(os.environ.get("FRONTDESK_DB", ROOT / "data" / "store.db"))
+# Demo mode swaps the model for scripted replies. Tools, rules, approvals and the database still run for real.
+DEMO = os.environ.get("FRONTDESK_DEMO") == "1" or not os.environ.get("ANTHROPIC_API_KEY")
+DB_PATH =Path(os.environ.get("FRONTDESK_DB", ROOT / "data" / "store.db"))
 
 # The demo data is dated, so "today" is pinned. Evals stay repeatable.
 TODAY = date.fromisoformat(os.environ.get("FRONTDESK_TODAY", "2026-09-15"))
