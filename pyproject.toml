@@ -1,0 +1,34 @@
+[project]
+name = "frontdesk"
+version = "0.1.0"
+description = "A customer-support agent that can act on orders, with the money rules enforced in code and a human approving the large refunds."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Ibrar Yunus", email = "yunus.ibrar@gmail.com" }]
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "anthropic>=0.116",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "python-dotenv>=1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/IbrarYunus/frontdesk"
+Author = "https://ibraryunus.com/ai-engineer"
+
+[project.scripts]
+frontdesk = "frontdesk.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["frontdesk"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

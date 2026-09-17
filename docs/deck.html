@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>frontdesk · slides</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root { --bg: #0e1110; --panel: #151a18; --ink: #e6ebe7; --muted: #8b958e; --line: #27302b; --accent: #3fbfa9; --warn: #f0b95a; --bad: #f2a19b; }
+  * { box-sizing: border-box; }
+  html { scroll-snap-type: y mandatory; }
+  body { margin: 0; background: #000; color: var(--ink); font: 22px/1.5 -apple-system, "Segoe UI", Inter, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  section { width: 1280px; height: 720px; margin: 0 auto; padding: 64px 80px; background: var(--bg); position: relative; overflow: hidden; scroll-snap-align: start; page-break-after: always; break-after: page; display: flex; flex-direction: column; }
+  section::after { content: attr(data-n) " · frontdesk · Ibrar Yunus"; position: absolute; left: 80px; bottom: 28px; font-size: 13px; color: var(--muted); letter-spacing: .04em; }
+  h1 { font: 600 76px/1.05 -apple-system, "Segoe UI", Inter, sans-serif; margin: 0; letter-spacing: -.02em; }
+  h1 sup, .acc { color: var(--accent); }
+  h2 { font: 600 40px/1.15 -apple-system, "Segoe UI", Inter, sans-serif; margin: 0 0 26px; letter-spacing: -.01em; }
+  .kicker { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  p { margin: 0 0 16px; } .lead { font-size: 28px; line-height: 1.4; max-width: 900px; } .muted { color: var(--muted); }
+  ul { margin: 0; padding-left: 26px; } li { margin-bottom: 12px; } li::marker { color: var(--accent); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; flex: 1; min-height: 0; }
+  .shot { border: 1px solid var(--line); border-radius: 10px; width: 100%; display: block; }
+  .shotwrap { flex: 1; min-height: 0; display: flex; align-items: flex-start; gap: 36px; }
+  .shotwrap img { max-height: 470px; width: auto; max-width: 760px; }
+  .note { font-size: 19px; color: var(--muted); }
+  .flow { display: flex; align-items: stretch; gap: 10px; margin: 8px 0 26px; }
+  .box { flex: 1; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 14px 16px; font-size: 16px; line-height: 1.4; }
+  .box b { display: block; font-size: 18px; color: var(--accent); margin-bottom: 4px; }
+  .arrow { align-self: center; color: var(--muted); font-size: 22px; }
+  table { border-collapse: collapse; width: 100%; font-size: 20px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); } th { color: var(--muted); font-weight: 500; font-size: 15px; letter-spacing: .05em; text-transform: uppercase; }
+  tr.best td { color: var(--accent); font-weight: 600; }
+  .bar { display: inline-block; height: 10px; border-radius: 5px; background: var(--accent); vertical-align: middle; margin-right: 10px; }
+  .bar.dim { background: var(--line); }
+  .big { font: 700 60px/1 -apple-system, sans-serif; color: var(--accent); } .stat { border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; background: var(--panel); } .stat p { font-size: 17px; color: var(--muted); margin: 8px 0 0; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 22px; }
+  a { color: var(--accent); text-decoration: none; }
+  .warn { color: var(--warn); } .bad { color: var(--bad); } code { font: 0.85em ui-monospace, Menlo, monospace; color: var(--accent); }
+  .box.stop { border-color: var(--bad); } .box.wait { border-color: var(--warn); }
+  .title { justify-content: center; } .title .lead { margin-top: 22px; color: var(--muted); }
+  .by { margin-top: 44px; font-size: 19px; color: var(--muted); } .by b { color: var(--ink); }
+  @media print { body { background: var(--bg); } }
+</style>
+</head>
+<body>
+
+<section class="title" data-n="1">
+  <div class="kicker">Agentic AI · tool use · human in the loop</div>
+  <h1>front<span class="acc">desk</span></h1>
+  <p class="lead">A customer-support agent that does the work, not just the talking. The money rules are enforced in code, and large refunds wait for a person.</p>
+  <p class="by"><b>Ibrar Yunus</b> · AI engineer · <a href="https://ibraryunus.com/ai-engineer">ibraryunus.com/ai-engineer</a> · <a href="https://www.linkedin.com/in/ibrar-yunus/">linkedin.com/in/ibrar-yunus</a> · <a href="https://github.com/IbrarYunus/frontdesk">github.com/IbrarYunus/frontdesk</a></p>
+</section>
+
+<section data-n="2">
+  <div class="kicker">The problem</div>
+  <h2>The hard part of a support agent is not the conversation.</h2>
+  <div class="cols">
+    <div>
+      <p>Support is where most companies first put an LLM in front of customers. A bot that only talks is a search box. The value is in acting: cancel, redirect, refund.</p>
+      <p>The risk is the same thing. Software that can be talked into things is now touching money.</p>
+    </div>
+    <div>
+      <p class="acc" style="font-size:27px;font-weight:600">The model decides what to do.<br>Code decides whether it is allowed.</p>
+      <ul>
+        <li>The model never types a refund amount.</li>
+        <li>Windows, final sale, ownership: checked in the tool.</li>
+        <li>Over £100, the run stops and a person decides.</li>
+        <li>Every step is on screen and in an audit log.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-n="3">
+  <div class="kicker">Demo · human in the loop</div>
+  <h2>A £240 refund stops and waits.</h2>
+  <div class="shotwrap">
+    <img class="shot" src="screenshots/approval-paused.png" alt="">
+    <div class="note">
+      <p>The agent found the order, checked the policy and called <code>issue_refund</code>.</p>
+      <p>The tool priced the item, saw it was over the limit, and returned <span class="warn">needs approval</span>. The run state was saved to the database and the loop exited. Nothing has been paid.</p>
+    </div>
+  </div>
+</section>
+
+<section data-n="4">
+  <div class="kicker">Demo · resume</div>
+  <h2>A person approves. The run picks up where it stopped.</h2>
+  <div class="shotwrap">
+    <img class="shot" src="screenshots/approval-approved.png" alt="">
+    <div class="note">
+      <p>The refund lands in the database with <code>approved_by: supervisor</code>. The order card on the left updates live.</p>
+      <p>The agent reports the decision honestly. A decline is reported just as plainly; there is an eval for that.</p>
+    </div>
+  </div>
+</section>
+
+<section data-n="5">
+  <div class="kicker">Demo · rules beat persuasion</div>
+  <h2>It takes "no" from the rules, and cannot be talked round.</h2>
+  <div class="cols" style="gap:24px">
+    <div><img class="shot" src="screenshots/policy-refusal.png" alt=""><p class="note" style="margin-top:12px">Final-sale item: the tool refuses, the agent explains the rule and what is still possible.</p></div>
+    <div><img class="shot" src="screenshots/prompt-injection.png" alt=""><p class="note" style="margin-top:12px">A fake "system notice" asks for a refund on someone else's order. The session cannot see that order at all.</p></div>
+  </div>
+</section>
+
+<section data-n="6">
+  <div class="kicker">Demo · knowing the limit</div>
+  <h2>An injury is not a refund question.</h2>
+  <div class="shotwrap">
+    <img class="shot" src="screenshots/escalation.png" alt="">
+    <div class="note">
+      <p>The agent opens an urgent ticket with a summary a supervisor can act on, tells the customer when they will hear back, and promises nothing on the supervisor's behalf.</p>
+    </div>
+  </div>
+</section>
+
+<section data-n="7">
+  <div class="kicker">Architecture</div>
+  <h2>One loop, seven tools, three outcomes.</h2>
+  <div class="flow">
+    <div class="box"><b>Agent loop</b>Claude Opus 5, adaptive thinking, prompt caching, strict tool schemas. Max 12 calls.</div><div class="arrow">→</div>
+    <div class="box"><b>tools.py</b>The only code that touches the database. Every business rule lives here.</div><div class="arrow">→</div>
+    <div class="box"><b>ok</b>Result goes back to the model.</div>
+    <div class="box stop"><b class="bad">refused</b>The rule, in words, as a tool error. Final.</div>
+    <div class="box wait"><b class="warn">needs approval</b>State saved to SQLite. Loop exits. Resumes on a decision.</div>
+  </div>
+  <div class="cols" style="font-size:19px">
+    <ul>
+      <li><b>No amount parameter.</b> <code>issue_refund(order_id, skus, reason)</code>. There is no number for an injection to change.</li>
+      <li><b>A hand-written loop, on purpose.</b> It must stop mid-turn, wait days, and resume from a database row in another process.</li>
+    </ul>
+    <ul>
+      <li><b>Same error for "missing" and "not yours".</b> Order numbers cannot be probed.</li>
+      <li><b>Customer text is data.</b> The prompt says why; the evals attack it.</li>
+    </ul>
+  </div>
+</section>
+
+<section data-n="8">
+  <div class="kicker">Evaluation</div>
+  <h2>Pass means the database is right, not that the reply sounds right.</h2>
+  <!-- EVAL_SLIDE -->
+</section>
+
+<section data-n="9">
+  <div class="kicker">What this shows</div>
+  <h2>Skills on display</h2>
+  <div class="cols">
+    <ul>
+      <li>Agent design: tool surface, guardrails in code, step budgets, audit trail</li>
+      <li>Human-in-the-loop: pausable runs with persisted state and clean resume</li>
+      <li>Claude API: tool use, strict schemas, adaptive thinking, prompt caching, structured outputs</li>
+    </ul>
+    <ul>
+      <li>Security thinking: prompt injection, cross-account access, enumeration</li>
+      <li>Evaluation: state-based scenario tests plus an LLM judge for honesty</li>
+      <li>Python, FastAPI, SQLite, Server-Sent Events, pytest, GitHub Actions</li>
+    </ul>
+  </div>
+  <p class="note"><b class="acc">Next:</b> real authentication, a cross-conversation supervisor queue, the shop's real order system behind the same tools, evals in CI.</p>
+</section>
+
+<section class="title" data-n="10">
+  <div class="kicker">Thank you</div>
+  <h1>Ibrar Yunus</h1>
+  <p class="lead">AI engineer. I build agents that are allowed near production.</p>
+  <p class="by"><a href="https://ibraryunus.com/ai-engineer">ibraryunus.com/ai-engineer</a><br><a href="https://www.linkedin.com/in/ibrar-yunus/">linkedin.com/in/ibrar-yunus</a><br><a href="https://github.com/IbrarYunus">github.com/IbrarYunus</a> · frontdesk · footnote · groundwork</p>
+</section>
+
+<script>
+  addEventListener("keydown", (e) => {
+    const step = { ArrowRight: 1, ArrowDown: 1, " ": 1, PageDown: 1, ArrowLeft: -1, ArrowUp: -1, PageUp: -1 }[e.key];
+    if (!step) return;
+    e.preventDefault();
+    scrollBy({ top: step * 720, behavior: "smooth" });
+  });
+</script>
+</body>
+</html>
