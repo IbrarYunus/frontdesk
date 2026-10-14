@@ -6,6 +6,7 @@
 </p>
 
 <p align="center">
+  <a href="https://ibraryunus.com/work/frontdesk/">Case study</a> ·
   <a href="#what-it-does">What it does</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="#does-it-work">Evals</a> ·
@@ -175,7 +176,7 @@ About 800 lines of Python on the Anthropic SDK, with no agent framework. The loo
 
 **Ibrar Yunus**, AI engineer.
 
-[ibraryunus.com/ai-engineer](https://ibraryunus.com/ai-engineer) · [LinkedIn](https://www.linkedin.com/in/ibrar-yunus/) · [GitHub](https://github.com/IbrarYunus)
+Made by [Ibrar Yunus](https://ibraryunus.com) — agentic AI engineer, Tokyo · [LinkedIn](https://www.linkedin.com/in/ibrar-yunus/) · [GitHub](https://github.com/IbrarYunus)
 
 Also see [groundwork](https://github.com/IbrarYunus/groundwork) (an agent that audits a codebase) and [footnote](https://github.com/IbrarYunus/footnote) (document Q&A where every claim cites its source sentence).
 
